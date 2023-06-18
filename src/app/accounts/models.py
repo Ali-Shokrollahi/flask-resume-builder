@@ -1,9 +1,10 @@
 from app.extensions import db, bcrypt
 from app.utils.models import BaseModel
+from sqlalchemy_utils import EmailType
 
 
 class User(BaseModel):
-    email = db.Column(db.String, unique=True, nullable=False)
+    email = db.Column(EmailType, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     last_login = db.Column(db.DateTime)
     is_active = db.Column(db.Boolean, nullable=False, default=False)
