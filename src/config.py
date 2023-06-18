@@ -8,6 +8,15 @@ class Config:
     SECRET_KEY = config('SECRET_KEY', default='test_project')
     SECURITY_PASSWORD_SALT = config('SECURITY_PASSWORD_SALT', default='very-important')
 
+    # Mail sending
+    MAIL_DEFAULT_SENDER = 'ali@mailtrap.io'
+    MAIL_SERVER = 'sandbox.smtp.mailtrap.io'
+    MAIL_PORT = 2525
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = config("EMAIL_USER")
+    MAIL_PASSWORD = config("EMAIL_PASSWORD")
+
 
 class ProdConfig(Config):
     DEBUG = False

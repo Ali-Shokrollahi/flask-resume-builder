@@ -2,7 +2,7 @@ from flask import Flask
 
 from app.accounts.models import User
 from app.commands import admin_cli
-from app.extensions import db, migrate, bcrypt, login_manager
+from app.extensions import db, migrate, bcrypt, login_manager, mail
 from app.accounts.views import blueprint as account_blueprint
 
 
@@ -31,6 +31,7 @@ app.cli.add_command(admin_cli)
 db.init_app(app)
 bcrypt.init_app(app)
 migrate.init_app(app, db)
+mail.init_app(app)
 login_manager.init_app(app)
 
 from app.accounts.models import User
