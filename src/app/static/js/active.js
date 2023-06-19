@@ -5,21 +5,11 @@ $(function () {
     $(".dashboard__item a").each(function () {
         var ThisUrl = $(this).attr('href');
         var ThisUrlEnd = ThisUrl.split('/').filter(Boolean).pop();
+
         if (ThisUrlEnd == CurrentUrlEnd)
             $(this).parent().addClass('active')
     });
 });
-
-function dis(elem) {
-
-    if (elem.readOnly) {
-
-        elem.readOnly = false
-    } else {
-        elem.readOnly = true
-    }
-}
-
 
 function add_job(elem) {
     var adddiv = document.querySelector(".add-job")

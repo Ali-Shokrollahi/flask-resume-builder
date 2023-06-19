@@ -7,13 +7,18 @@ from .models import User
 from .token import generate_token, confirm_token
 from app.extensions import db
 from app.utils.email import send_email
+from app.utils.decorators import redirect_authenticated_user
+from ..dashboards.models import Profile
 
 blueprint = Blueprint('accounts', __name__, url_prefix='/account', template_folder='templates/accounts')
 
 
 class SignupUser(MethodView):
+    decorators = [redirect_authenticated_user]
+
     def get(self):
         form = SignupForm()
+
         return render_template('accounts/signup.html', form=form)
 
     def post(self):
@@ -22,7 +27,6 @@ class SignupUser(MethodView):
             user = User(email=form.email.data)
             user.set_user_password(form.password.data)
             try:
-                print(User.g)
                 db.session.add(user)
                 db.session.commit()
 
@@ -44,24 +48,29 @@ def confirm_email(token: str):
     if user.email == email:
         user.email_verified = True
         user.is_active = True
-        try:
-            db.session.add(user)
-            db.session.commit()
-            flash("ایمیل شما با موفقیت تایید شد! لطفا به حساب خود وارد شوید.", "success")
-            return redirect(url_for("accounts.signin"))
-        except:
-            flash('خطایی در هنگام انحام عملیات رخ داده است. لطفا مجددا امتحان کنید.')
+
+        db.session.add(user)
+        profile = Profile(user_id=user.id)
+        db.session.add(profile)
+        db.session.commit()
+        flash("ایمیل شما با موفقیت تایید شد! لطفا به حساب خود وارد شوید.", "success")
+        return redirect(url_for("accounts.signin"))
+
+
     else:
         flash("این لینک غیرمعتبر با منقضی شده است.", "danger")
 
     return redirect(url_for("accounts.signup"))
 
 
+@redirect_authenticated_user
 def signup_success():
     return render_template('accounts/signup_success.html')
 
 
 class SigninUser(MethodView):
+    decorators = [redirect_authenticated_user]
+
     def get(self):
         form = SigninForm()
         return render_template('accounts/signin.html', form=form)
@@ -70,13 +79,21 @@ class SigninUser(MethodView):
         form = SigninForm()
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
-
             if user and user.check_user_password(form.password.data):
-                remember_me = form.remember_me.data
-                login_user(user, remember=remember_me)  # Perform login using Flask-Login
+                if not user.email_verified:
+                    flash("لطفا ابتدا ایمیل خود را تایید نمایید.", "warning")
 
-                flash("ورود با موفقیت انجام شد.", "success")
-                return redirect(url_for("accounts.signin"))
+                elif not user.is_active:
+                    flash("این کاربر مجور ورود ندارد.", "warning")
+
+
+                else:
+                    remember_me = form.remember_me.data
+                    login_user(user, remember=remember_me)
+
+                    flash("ورود با موفقیت انجام شد.", "success")
+                    return redirect(url_for("dashboards.profile_update"))
+
             else:
                 flash("ایمیل یا رمز عبور نامعتبر است. لطفاً مجدداً تلاش کنید.", "danger")
 

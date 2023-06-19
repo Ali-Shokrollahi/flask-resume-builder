@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('.form').submit(function (e) {
-        var url = "/dashboard/education"; // send the form data here.
+        var url = "/dashboards/education"; // send the form data here.
         $.ajax({
             type: "POST",
             url: url,
@@ -12,7 +12,7 @@ $(document).ready(function () {
                 Swal.fire({
 
                     title: data.flash.text,
-                    confirmButtonText: '<a href="/dashboard/education" style="color: white">متوجه شدم</a>'
+                    confirmButtonText: '<a href="/dashboards/education" style="color: white">متوجه شدم</a>'
 
                 })
             });
