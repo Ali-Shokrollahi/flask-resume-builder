@@ -1,12 +1,13 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-    <section class="register">
+
+    <section>
 
         <div class="auth__box trnsform">
             <div class="auth__box w-100 mt-0 trnsformback">
 
-                <h1 class="register__title">ثبت نام</h1>
+                <h1 class="login__title">ورود</h1>
 
                 <form method="post">
                     {{ form.hidden_tag() }}
@@ -15,9 +16,10 @@
                     <div class="auth__row">
                         <div class="register__input w-100">
                             <i class="fa fa-envelope"></i>
-                            {{ form.email(placeholder="ایمیل") }}
+                            {{ form.email(placeholder= "ایمیل") }}
                         </div>
                         {% for error in  form.email.errors %}
+
                             <small>
                                 {{ error }}
                             </small>
@@ -25,17 +27,12 @@
                         {% endfor %}
                     </div>
 
-
-                    <div class="auth__row d-flex">
-                        <div class="register__input">
+                    <div class="auth__row">
+                        <div class="register__input w-100">
                             <i class="fa fa-lock"></i>
                             {{ form.password(placeholder="رمز عبور") }}
+                            <span id="show_pass"><i class="fa fa-eye-slash c-blue"></i></span>
                         </div>
-                        <div class="register__input">
-                            <i class="fa fa-lock"></i>
-                            {{ form.confirm_password(placeholder="تکرار رمز عبور") }}
-                        </div>
-
                         {% for error in  form.password.errors %}
                             <small>
                                 {{ error }}
@@ -43,23 +40,28 @@
                             <br>
                         {% endfor %}
 
-                        {% for error in  form.confirm_password.errors %}
-                            <small>
-                                {{ error }}
-                            </small>
-                            <br>
-                        {% endfor %}
+                    </div>
+
+                    <div class="auth__row">
+
+
+                        {{ form.remember_me(class="checkbox") }}
+
+                        <label>من را به خاطر بسپار</label>
 
                     </div>
 
-
                     <div class="auth__row t-center">
-                        {{ form.submit(class="submit") }}
+                        {{ form.submit(class="submit  b-blue") }}
                     </div>
 
 
                 </form>
-                <a class="login-link" href="/login"><i class="fa fa-sign-in"></i>ورود به سایت </a>
+
+                <a class="register-link" href="{{ url_for('accounts.signup') }}"><i class="fa fa-plus-circle"></i>عضویت
+                    در سایت </a>
+                <br>
+                <a class="register-link" href=""><i class="fa fa-unlock-alt"></i>رمز عبور خود را فراموش کرده ام </a>
 
 
             </div>
@@ -67,4 +69,8 @@
 
 
     </section>
-{% endblock content %}
+
+
+{% endblock %}
+
+

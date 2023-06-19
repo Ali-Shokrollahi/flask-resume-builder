@@ -1,9 +1,11 @@
+from flask_login import UserMixin
+
 from app.extensions import db, bcrypt
 from app.utils.models import BaseModel
 from sqlalchemy_utils import EmailType
 
 
-class User(BaseModel):
+class User(BaseModel, UserMixin):
     email = db.Column(EmailType, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     last_login = db.Column(db.DateTime)

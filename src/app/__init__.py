@@ -36,10 +36,10 @@ login_manager.init_app(app)
 
 from app.accounts.models import User
 
-login_manager.login_view = "accounts.login"
+login_manager.login_view = "accounts.signin"
 login_manager.login_message_category = "danger"
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.filter(User.id == int(user_id)).first()
+    return User.query.get(int(user_id))

@@ -44,14 +44,23 @@ $(document).ready(function () {
         }
     });
 
-    function showpass(elem) {
-        var input = $(elem).parent().find("input");
+    var show_pass = $("#show_pass");
+
+    show_pass.on("click", function () {
+        var input = $(this).parent().find("input");
         if (input.attr("type") === "password") {
-            elem.innerHTML = '<i class="fa fa-eye c-blue"></i>';
+            this.innerHTML = '<i class="fa fa-eye c-blue"></i>';
             input.attr("type", "text");
         } else if (input.attr("type") === "text") {
-            elem.innerHTML = '<i class="fa fa-eye-slash c-blue"></i>';
+            this.innerHTML = '<i class="fa fa-eye-slash c-blue"></i>';
             input.attr("type", "password");
         }
-    }
+    });
+
+    setTimeout(function () {
+        $('#flash-messages').fadeOut('slow');
+    }, 4000);
 });
+
+
+

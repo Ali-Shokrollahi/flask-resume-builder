@@ -7,6 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/grid.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
@@ -22,33 +23,35 @@
 <body>
 <header>
     {% block nav %}
-    <nav class="d-flex">
-        <ul class="nav__list">
-            <li class="nav__item"><a href="/">خانه</a></li>
-            <li class="nav__item "><a href="">خدمات</a></li>
-            <li class="nav__item"><a href="">نحوه استفاده</a></li>
-            <li class="nav__item"><a href="">حمایت از ما</a></li>
-            {% if user %}
-                <li class="nav__item"><a href="/dashboard/profile" class="btn nav__btn"> سلام{{ " "+user.name }}</a></li>
+        <nav class="d-flex">
+            <ul class="nav__list">
+                <li class="nav__item"><a href="/">خانه</a></li>
+                <li class="nav__item "><a href="">خدمات</a></li>
+                <li class="nav__item"><a href="">نحوه استفاده</a></li>
+                <li class="nav__item"><a href="">حمایت از ما</a></li>
+                {% if user %}
+                    <li class="nav__item"><a href="/dashboard/profile" class="btn nav__btn"> سلام{{ " "+user.name }}</a>
+                    </li>
 
 
                 {% else %}
-                <li class="nav__item"><a href="/login" class="btn nav__btn">
+                    <li class="nav__item"><a href="/login" class="btn nav__btn">
 
 
-                    ورود / ثبت نام
+                        ورود / ثبت نام
 
-                </a></li>
-            {% endif %}
+                    </a></li>
+                {% endif %}
 
-        </ul>
-        <a class="fa fa-bars menu__icon d-none"></a>
+            </ul>
+            <a class="fa fa-bars menu__icon d-none"></a>
 
-        <div class="logo__wrapper">
-            <img class="w-100" src="{{ url_for('static', filename='images/logo.png') }}">
-        </div>
-    </nav>
+            <div class="logo__wrapper">
+                <img class="w-100" src="{{ url_for('static', filename='images/logo.png') }}">
+            </div>
+        </nav>
     {% endblock %}
+    {% include "components/alerts.html" %}
     {% block header %}
     {% endblock %}
 </header>
@@ -58,8 +61,7 @@
 <script src="{{ url_for('static',filename='js/Jquery.min.js') }}"></script>
 <script src="{{ url_for('static',filename='js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.js') }}"></script>
 
 
 </body>

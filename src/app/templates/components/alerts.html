@@ -1,24 +1,11 @@
-<!-- Begin alerts -->
 {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <script>
-
-                Swal.fire({
-
-                    title: "{{ category.title() }}",
-
-                    text: "{{ message }}",
-
-                    icon: "{{ category }}" == "خطا" ? "error" : "{{ category }}",
-
-
-
-                })
-
-            </script>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
-<!-- End alerts -->
+        {% if messages %}
+            <div id="flash-messages" class="position-fixed" style="width:320px;top:115px;right: 30px">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}

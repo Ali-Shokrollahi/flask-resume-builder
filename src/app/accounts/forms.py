@@ -1,9 +1,9 @@
-from wtforms import SubmitField
+from wtforms import BooleanField
 from wtforms_alchemy import ModelForm
 from flask_wtf import FlaskForm
 from .models import User
 from wtforms.validators import Length, DataRequired, EqualTo
-from wtforms.fields import PasswordField
+from wtforms.fields import PasswordField, SubmitField, EmailField
 
 
 class SignupForm(ModelForm, FlaskForm):
@@ -16,3 +16,11 @@ class SignupForm(ModelForm, FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password',
                                                                                              message="تکرار باید برابر با رمز عبور باشد.")])
     submit = SubmitField('ثبت نام')
+
+
+class SigninForm(FlaskForm):
+    email = EmailField(validators=[DataRequired()])
+
+    password = PasswordField(validators=[DataRequired()])
+    remember_me = BooleanField()
+    submit = SubmitField("ورود")
