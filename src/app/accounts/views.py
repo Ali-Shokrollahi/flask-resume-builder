@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask.views import MethodView
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 from .forms import SignupForm, SigninForm
 from .models import User
@@ -100,7 +100,14 @@ class SigninUser(MethodView):
         return render_template('accounts/signin.html', form=form)
 
 
+def logout():
+    logout_user()
+    flash('شما از حساب خود خارج شدید!.', 'warning')
+    return redirect(url_for('accounts.signin'))
+
+
 blueprint.add_url_rule('/signup', view_func=SignupUser.as_view('signup'), methods=["GET", "POST"])
 blueprint.add_url_rule('/confirm/<string:token>', view_func=confirm_email, methods=["GET"])
 blueprint.add_url_rule('/signup/success', view_func=signup_success, methods=["GET"])
 blueprint.add_url_rule('/signin', view_func=SigninUser.as_view('signin'), methods=["GET", "POST"])
+blueprint.add_url_rule('/logout/', view_func=logout, methods=["POST"])

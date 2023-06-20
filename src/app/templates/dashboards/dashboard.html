@@ -24,9 +24,14 @@
                         <li class="dashboard__item"><a href="/dashboard/experience">سابقه من</a></li>
                         <li class="dashboard__item"><a href="/dashboard/education">تحصیلات من</a></li>
                         <li class="dashboard__item"><a href="/dashboard/skill">مهارت های من</a></li>
-                        <li class="dashboard__item"><a href="/dashboard/social">نحوه ارتباط</a></li>
+                        <li class="dashboard__item"><a href="{{ url_for('dashboards.social_update') }}">نحوه ارتباط</a>
+                        </li>
                         <li class="dashboard__item"><a href="/dashboard/build">ساخت رزومه</a></li>
-                        <li class="dashboard__item"><a href="/logout">خروج</a></li>
+                        <form action="{{ url_for('accounts.logout') }}" method="post">
+                            <input class="dashboard__item text-danger bg-transparent border-0" type="submit"
+                                   value="خروج">
+                        </form>
+
                     </ul>
                 </nav>
 
