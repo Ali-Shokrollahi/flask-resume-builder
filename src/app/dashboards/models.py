@@ -1,5 +1,6 @@
 from app.extensions import db
 from app.utils.models import BaseModel
+from sqlalchemy.types import SMALLINT
 
 
 class Profile(BaseModel):
@@ -17,6 +18,9 @@ class Profile(BaseModel):
 
     social = db.relationship('Social', uselist=False)
     work_datas = db.relationship('WorkData', uselist=False)
+    experience = db.relationship('Experience')
+    education = db.relationship('Education')
+    skill = db.relationship('Skill')
 
     def __repr__(self):
         return self.user.email
@@ -39,7 +43,33 @@ class Social(BaseModel):
 class WorkData(BaseModel):
     __tablename__ = "work_datas"
 
-    experience = db.Column(db.Integer, nullable=False)
-    number_of_projects = db.Column(db.Integer, nullable=False)
-    number_of_customer = db.Column(db.Integer, nullable=False)
+    experience = db.Column(db.SMALLINT, nullable=False)
+    number_of_projects = db.Column(db.SMALLINT, nullable=False)
+    number_of_customer = db.Column(db.SMALLINT, nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('profiles.id'), unique=True)
+
+
+class Experience(BaseModel):
+    __tablename__ = "experiences"
+    title = db.Column(db.String(64), nullable=False)
+    company = db.Column(db.String(64), nullable=False)
+    description = db.Column(db.Text())
+    duration = db.Column(db.Integer)
+    owner_id = db.Column(db.Integer, db.ForeignKey('profiles.id'))
+
+
+class Education(BaseModel):
+    __tablename__ = "educations"
+    title = db.Column(db.String(32), nullable=False)
+    school = db.Column(db.String(64), nullable=False)
+    description = db.Column(db.Text())
+    duration = db.Column(db.Integer)
+    owner_id = db.Column(db.Integer, db.ForeignKey('profiles.id'))
+
+
+class Skill(BaseModel):
+    __tablename__ = "skills"
+
+    name = db.Column(db.String(32), nullable=False)
+    percent = db.Column(db.Integer, nullable=False, default=0)
+    owner_id = db.Column(db.Integer, db.ForeignKey('profiles.id'))

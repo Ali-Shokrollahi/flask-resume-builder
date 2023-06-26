@@ -6,7 +6,7 @@
                 <nav class="dashboard__nav col-12 col-lg-3  ">
                     <div class="user__image_wrapper mx-auto">
                         {% if current_user.profile.photo %}
-                            {% set p="users/"+user.photo %}
+                            {% set p="uploads/profiles/"+current_user.profile.photo %}
                         {% elif current_user.profile.gender=="زن" %}
                             {% set p="images/woman.png" %}
                         {% else %}
@@ -20,10 +20,10 @@
 
 
                     <ul class="dashboard__list t-center">
-                        <li class="dashboard__item"><a href="/dashboard">پروفایل من</a></li>
-                        <li class="dashboard__item"><a href="/dashboard/experience">سابقه من</a></li>
-                        <li class="dashboard__item"><a href="/dashboard/education">تحصیلات من</a></li>
-                        <li class="dashboard__item"><a href="/dashboard/skill">مهارت های من</a></li>
+                        <li class="dashboard__item"><a href="{{ url_for('dashboards.profile_update') }}">پروفایل من</a></li>
+                        <li class="dashboard__item"><a href="{{ url_for('dashboards.experiences') }}">سابقه من</a></li>
+                        <li class="dashboard__item"><a href="{{ url_for('dashboards.educations') }}">تحصیلات من</a></li>
+                        <li class="dashboard__item"><a href="{{ url_for('dashboards.skills') }}">مهارت های من</a></li>
                         <li class="dashboard__item"><a href="{{ url_for('dashboards.social_update') }}">نحوه ارتباط</a>
                         </li>
                         <li class="dashboard__item"><a href="/dashboard/build">ساخت رزومه</a></li>

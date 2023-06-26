@@ -1,7 +1,7 @@
 <div class="dashboard__form">
     <h2 class="form__title">پروفایل من</h2>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <div class="form__row d-flex">
             <div class="form__input col-3 col-sm-1 col-lg-1">
@@ -73,6 +73,18 @@
             </div>
 
             {% for error in form.errors.username %}
+                <small>   {{ error }}</small>
+            {% endfor %}
+        </div>
+
+        <div class="form__row d-flex">
+             <div class="form__input col-lg-3">
+                <label for=""> تصویر پروفایل :</label>
+            </div>
+             <div class="form__input col-4 col-lg-9">
+                {{ form.photo }}
+            </div>
+            {% for error in form.errors.photo %}
                 <small>   {{ error }}</small>
             {% endfor %}
         </div>

@@ -17,6 +17,9 @@ class Config:
     MAIL_USERNAME = config("EMAIL_USER")
     MAIL_PASSWORD = config("EMAIL_PASSWORD")
 
+    # uploads
+    UPLOAD_FOLDER = os.path.join(BASE_DIR, 'app/static/uploads')
+
 
 class ProdConfig(Config):
     DEBUG = False

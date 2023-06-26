@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('.form2').submit(function (e) {
-        var url = "/addExperience"; // send the form data here.
+        var url = "/dashboard/experiences"; // send the form data here.
         $.ajax({
             type: "POST",
             url: url,
@@ -21,12 +21,7 @@ $(document).ready(function () {
 
                 tableBody = $(".content-box__table tbody")
                 tableBody.append(markup)
-                Swal.fire({
 
-                    title: data.flash.text,
-                    confirmButtonText:" متوجه شدم"
-
-                })
             });
         e.preventDefault(); // block the traditional submission of the form.
     });

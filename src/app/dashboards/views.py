@@ -1,12 +1,15 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+import os
+
+from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, current_app
 from flask.views import MethodView
 from flask_login import login_required, current_user
+from werkzeug.utils import secure_filename
 
-from .forms import ProfileForm, SocialForm
+from .forms import ProfileForm, SocialForm, WorkDataForm, ExperienceForm, EducationForm, SkillForm
 from app.extensions import db
 from datetime import datetime
 
-from .models import Profile, Social
+from .models import Profile, Social, WorkData, Experience, Education, Skill
 
 blueprint = Blueprint('dashboards', __name__, url_prefix='/dashboard')
 
@@ -39,6 +42,12 @@ class ProfileUpdate(MethodView):
             profile.bio = form.bio.data
             profile.gender = form.gender.data
             profile.username = form.username.data
+            photo = form.photo.data
+
+            if photo:
+                filename = secure_filename(photo.filename)
+                photo.save(os.path.join(current_app.config['UPLOAD_FOLDER'], 'profiles', filename))
+                profile.photo = filename
 
             try:
                 db.session.commit()
@@ -98,5 +107,127 @@ class SocialUpdate(MethodView):
         return render_template('dashboards/dashboard.html', page=self.page, form=form)
 
 
+class WorkDataView(MethodView):
+    decorators = [login_required]
+    page = f"dashboards/forms/experience.html"
+
+    def get(self):
+        owner = current_user.profile
+        work_data_form = WorkDataForm()
+        experience_form = ExperienceForm()
+        work_data = WorkData.query.filter_by(owner_id=owner.id).first()
+
+        experiences = owner.experience
+        if work_data:
+            work_data_form.experience.data = work_data.experience
+            work_data_form.number_of_projects.data = work_data.number_of_projects
+            work_data_form.number_of_customer.data = work_data.number_of_customer
+
+        return render_template('dashboards/dashboard.html', page=self.page, experiences=experiences,
+                               experience_form=experience_form, work_data_form=work_data_form,
+                               )
+
+    def post(self):
+        owner = current_user.profile
+        form_id = request.args.get('form_id', 0, type=int)
+        work_data_form = WorkDataForm()
+        experience_form = ExperienceForm()
+
+        if experience_form.validate_on_submit() and form_id == 2:
+            ex = Experience(title=experience_form.title.data, company=experience_form.company.data,
+                            description=experience_form.description.data, duration=experience_form.duration.data,
+                            owner_id=owner.id)
+            try:
+                db.session.add(ex)
+                db.session.commit()
+                flash("اطلاعات با موفقیت ثبت شد.", 'success')
+
+            except:
+                flash("مشکلی پیش آمده است", 'danger')
+
+        elif work_data_form.validate_on_submit() and form_id == 1:
+            work_data = WorkData.query.filter_by(owner_id=owner.id).first()
+            if work_data:
+                work_data.experience = work_data_form.experience.data
+                work_data.number_of_projects = work_data_form.number_of_projects.data
+                work_data.number_of_customer = work_data_form.number_of_customer.data
+
+            else:
+                work_data = WorkData(experience=work_data_form.experience.data,
+                                     number_of_projects=work_data_form.number_of_projects.data,
+                                     number_of_customer=work_data_form.number_of_customer.data, owner_id=owner.id)
+                db.session.add(work_data)
+
+            try:
+
+                db.session.commit()
+                flash("اطلاعات با موفقیت ثبت شد.", 'success')
+            except:
+                flash("مشکلی پیش آمده است", 'danger')
+
+        return redirect(url_for('dashboards.experiences'))
+
+
+class EducationView(MethodView):
+    decorators = [login_required]
+    page = f"dashboards/forms/education.html"
+
+    def get(self):
+        owner = current_user.profile
+        form = EducationForm()
+        educations = owner.education
+        return render_template('dashboards/dashboard.html', page=self.page, form=form, educations=educations)
+
+    def post(self):
+        owner = current_user.profile
+        form = EducationForm()
+
+        if form.validate_on_submit():
+            ed = Education(title=form.title.data, school=form.school.data, description=form.description.data,
+                           duration=form.duration.data,
+                           owner_id=owner.id)
+
+            try:
+                db.session.add(ed)
+                db.session.commit()
+                flash("اطلاعات با موفقیت ثبت شد.", 'success')
+
+            except:
+                flash("مشکلی پیش آمده است", 'danger')
+
+        return redirect(url_for('dashboards.educations'))
+
+
+class SkillView(MethodView):
+    decorators = [login_required]
+    page = f"dashboards/forms/skills.html"
+
+    def get(self):
+        owner = current_user.profile
+        form = SkillForm()
+        skills = owner.skill
+        return render_template('dashboards/dashboard.html', page=self.page, form=form, skills=skills)
+
+    def post(self):
+        owner = current_user.profile
+        form = SkillForm()
+
+        if form.validate_on_submit():
+            skill = Skill(name=form.name.data, percent=form.percent.data, owner_id=owner.id)
+
+            try:
+                db.session.add(skill)
+                db.session.commit()
+                flash("اطلاعات با موفقیت ثبت شد.", 'success')
+
+            except:
+                flash("مشکلی پیش آمده است", 'danger')
+
+        return redirect(url_for('dashboards.skills'))
+
+
 blueprint.add_url_rule('/', view_func=ProfileUpdate.as_view('profile_update'), methods=["GET", "POST"])
 blueprint.add_url_rule('/social', view_func=SocialUpdate.as_view('social_update'), methods=["GET", "POST"])
+blueprint.add_url_rule('/experiences', view_func=WorkDataView.as_view('experiences'), methods=["GET", "POST"])
+blueprint.add_url_rule('/educations', view_func=EducationView.as_view('educations'), methods=["GET", "POST"])
+blueprint.add_url_rule('/skills', view_func=SkillView.as_view('skills'), methods=["GET", "POST"])
