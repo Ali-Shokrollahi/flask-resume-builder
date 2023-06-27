@@ -9,6 +9,7 @@ from app.extensions import db
 from app.utils.email import send_email
 from app.utils.decorators import redirect_authenticated_user
 from ..dashboards.models import Profile
+from ..resumes.models import Resume
 
 blueprint = Blueprint('accounts', __name__, url_prefix='/account', template_folder='templates/accounts')
 
@@ -26,18 +27,23 @@ class SignupUser(MethodView):
         if form.validate_on_submit():
             user = User(email=form.email.data)
             user.set_user_password(form.password.data)
-            try:
-                db.session.add(user)
-                db.session.commit()
 
-                token = generate_token(user.email)
-                confirm_url = url_for("accounts.confirm_email", token=token, _external=True)
-                html = render_template("accounts/confirm_email.html", confirm_url=confirm_url)
-                subject = "لطفا ایمیل خود را تایید کنید."
-                send_email(user.email, subject, html)
-                return redirect(url_for("accounts.signup_success"))
-            except:
-                flash('خطایی در هنگام انجام عملیات رخ داده است. لطفا مجددا امتحان کنید.', category='danger')
+            db.session.add(user)
+
+            token = generate_token(user.email)
+            confirm_url = url_for("accounts.confirm_email", token=token, _external=True)
+            html = render_template("accounts/confirm_email.html", confirm_url=confirm_url)
+            subject = "لطفا ایمیل خود را تایید کنید."
+            send_email(user.email, subject, html)
+            db.session.flush()
+            profile = Profile(user_id=user.id)
+            resume = Resume(owner_id=user.id)
+            db.session.add(profile)
+            db.session.add(resume)
+            db.session.commit()
+            return redirect(url_for("accounts.signup_success"))
+
+            flash('خطایی در هنگام انجام عملیات رخ داده است. لطفا مجددا امتحان کنید.', category='danger')
 
         return render_template('accounts/signup.html', form=form)
 
@@ -48,10 +54,6 @@ def confirm_email(token: str):
     if user.email == email:
         user.email_verified = True
         user.is_active = True
-
-        db.session.add(user)
-        profile = Profile(user_id=user.id)
-        db.session.add(profile)
         db.session.commit()
         flash("ایمیل شما با موفقیت تایید شد! لطفا به حساب خود وارد شوید.", "success")
         return redirect(url_for("accounts.signin"))

@@ -226,6 +226,33 @@ class SkillView(MethodView):
         return redirect(url_for('dashboards.skills'))
 
 
+class BuildResumeView(MethodView):
+    page = f"dashboards/forms/skills.html"
+
+    def get(self):
+        owner = current_user.profile
+        form = SkillForm()
+        skills = owner.skill
+        return render_template('dashboards/dashboard.html', page=self.page, form=form, skills=skills)
+
+    def post(self):
+        owner = current_user.profile
+        form = SkillForm()
+
+        if form.validate_on_submit():
+            skill = Skill(name=form.name.data, percent=form.percent.data, owner_id=owner.id)
+
+            try:
+                db.session.add(skill)
+                db.session.commit()
+                flash("اطلاعات با موفقیت ثبت شد.", 'success')
+
+            except:
+                flash("مشکلی پیش آمده است", 'danger')
+
+        return redirect(url_for('dashboards.skills'))
+
+
 blueprint.add_url_rule('/', view_func=ProfileUpdate.as_view('profile_update'), methods=["GET", "POST"])
 blueprint.add_url_rule('/social', view_func=SocialUpdate.as_view('social_update'), methods=["GET", "POST"])
 blueprint.add_url_rule('/experiences', view_func=WorkDataView.as_view('experiences'), methods=["GET", "POST"])

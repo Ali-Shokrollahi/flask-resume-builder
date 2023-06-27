@@ -1,6 +1,6 @@
 from app.extensions import db
 from app.utils.models import BaseModel
-from sqlalchemy.types import SMALLINT
+from app.resumes.models import Resume
 
 
 class Profile(BaseModel):
@@ -21,6 +21,8 @@ class Profile(BaseModel):
     experience = db.relationship('Experience')
     education = db.relationship('Education')
     skill = db.relationship('Skill')
+
+    resume = db.relationship('app.resumes.models.Resume', uselist=False)
 
     def __repr__(self):
         return self.user.email
