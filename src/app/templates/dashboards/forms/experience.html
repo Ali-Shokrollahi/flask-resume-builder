@@ -44,14 +44,24 @@
             <tr>
                 <th class="col-6 col-sm-2">عنوان شغلی</th>
                 <th class="col-6 col-sm-2">نام شرکت</th>
-                <th class="d-none d-sm-block col-sm-8">توضیحات</th>
+                <th class="col-4 col-sm-6">ویرایش</th>
 
             </tr>
             {% for experience in experiences %}
-                <tr>
-                    <td class="col-6 col-sm-2">{{ experience.title }}</td>
-                    <td class="col-6 col-sm-2"> {{ experience.company }}</td>
-                    <td class="d-none d-sm-block col-sm-8">{{ experience.description|truncate(length=50,killwords=False, end='...') }}</td>
+                <tr id="experience-{{ experience.id }}">
+                    <td class="col-6 col-sm-3">{{ experience.title }}</td>
+                    <td class="col-6 col-sm-3"> {{ experience.company }}</td>
+                    <td class="col-4  col-sm-6">
+                        <div class="form__input d-flex justify-content-center">
+
+                            <div class="add-job-button mx-2" onclick="add_job(this)"><span class="fa fa-pencil"></span>
+                            </div>
+                            <div class="add-job-button bg-danger mx-2"
+                                 onclick="delete_exp({{ experience.id }})"><span
+                                    class="fa fa-trash"></span>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             {% endfor %}
 
@@ -66,7 +76,7 @@
 
     </div>
 
-   <form method="post" action="{{ url_for('dashboards.experiences',form_id=2) }}" class="form2">
+    <form method="post" action="{{ url_for('dashboards.experiences',form_id=2) }}" class="form2">
         {{ experience_form.hidden_tag() }}
         <div class="add-job">
             <div class="form__row d-flex">

@@ -3,16 +3,27 @@
     <div class="content-box  scroll">
         <table class="content-box__table">
             <tr>
-                <th class="col-6 col-sm-2">مدرک</th>
+                <th class="col-6 col-sm-3">مدرک</th>
                 <th class="col-6 col-sm-3">نام محل تحصیل</th>
-                <th class="d-none d-sm-block col-sm-7">توضیحات</th>
+                <th class="col-4 col-sm-6">ویرایش</th>
 
             </tr>
             {% for education in educations %}
-                <tr>
-                    <td class="col-6 col-sm-2">{{ education.title }}</td>
+                <tr id="education-{{ education.id }}">
+                    <td class="col-6 col-sm-3">{{ education.title }}</td>
                     <td class="col-6 col-sm-3"> {{ education.school }}</td>
-                    <td class="d-none d-sm-block col-sm-8">{{ education.description|truncate(length=50,killwords=False, end='...') }}</td>
+                    <td class="col-4  col-sm-6">
+
+                        <div class="form__input d-flex justify-content-center">
+
+                            <div class="add-job-button mx-2" onclick="add_job(this)"><span class="fa fa-pencil"></span>
+                            </div>
+                            <div class="add-job-button bg-danger mx-2"
+                                 onclick="delete_edu({{ education.id }})"><span
+                                    class="fa fa-trash"></span>
+                            </div>
+                        </div>
+                    </td>
 
                 </tr>
             {% endfor %}

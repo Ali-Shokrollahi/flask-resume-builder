@@ -1,6 +1,6 @@
 import os
 
-from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, current_app
+from flask import Blueprint, render_template, flash, redirect, url_for, request, jsonify, current_app, abort
 from flask.views import MethodView
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
@@ -168,6 +168,17 @@ class WorkDataView(MethodView):
         return redirect(url_for('dashboards.experiences'))
 
 
+@login_required
+def delete_exp():
+    experience_id = request.form.get('id')
+    exp = Experience.query.get_or_404(experience_id)
+    if exp.owner_id == current_user.id:
+        db.session.delete(exp)
+        db.session.commit()
+        return jsonify({'message': 'Experience deleted successfully'})
+    abort(403)
+
+
 class EducationView(MethodView):
     decorators = [login_required]
     page = f"dashboards/forms/education.html"
@@ -198,6 +209,17 @@ class EducationView(MethodView):
         return redirect(url_for('dashboards.educations'))
 
 
+@login_required
+def delete_edu():
+    education_id = request.form.get('id')
+    edu = Education.query.get_or_404(education_id)
+    if edu.owner_id == current_user.id:
+        db.session.delete(edu)
+        db.session.commit()
+        return jsonify({'message': 'Education deleted successfully'})
+    abort(403)
+
+
 class SkillView(MethodView):
     decorators = [login_required]
     page = f"dashboards/forms/skills.html"
@@ -224,6 +246,17 @@ class SkillView(MethodView):
                 flash("مشکلی پیش آمده است", 'danger')
 
         return redirect(url_for('dashboards.skills'))
+
+
+@login_required
+def delete_skill():
+    skill_id = request.form.get('id')
+    skill = Skill.query.get_or_404(skill_id)
+    if skill.owner_id == current_user.id:
+        db.session.delete(skill)
+        db.session.commit()
+        return jsonify({'message': 'Skill deleted successfully'})
+    abort(403)
 
 
 class BuildResumeView(MethodView):
@@ -258,3 +291,7 @@ blueprint.add_url_rule('/social', view_func=SocialUpdate.as_view('social_update'
 blueprint.add_url_rule('/experiences', view_func=WorkDataView.as_view('experiences'), methods=["GET", "POST"])
 blueprint.add_url_rule('/educations', view_func=EducationView.as_view('educations'), methods=["GET", "POST"])
 blueprint.add_url_rule('/skills', view_func=SkillView.as_view('skills'), methods=["GET", "POST"])
+
+blueprint.add_url_rule('/educations/delete', view_func=delete_edu, methods=["POST"])
+blueprint.add_url_rule('/experiences/delete', view_func=delete_exp, methods=["POST"])
+blueprint.add_url_rule('/skills/delete', view_func=delete_skill, methods=["POST"])

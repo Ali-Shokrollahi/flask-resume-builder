@@ -143,6 +143,9 @@ section {
     border-radius: 3px;
     cursor: pointer;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }
 
