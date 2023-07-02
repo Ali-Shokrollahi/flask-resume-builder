@@ -1,0 +1,27 @@
+<h2 class="form__title">تنظیمات رزومه</h2>
+
+<p>به بخش ساخت رزومه خوش آمدید. در این بخش می توانید صفحه اختصاصی رزومه خود را بسازید و لینک آن را با دوستانتان
+    به اشتراک بگذارید.</p>
+<p>
+    به خاطر داشته باشید که برای دریافت این صفحه باید یک نام کاربری برای خود در نظر گرفته باشید. </p>
+
+<h3>وضعیت صفحه رزومه</h3>
+{% if current_user.profile.username %}
+    <form method="post" action="/dashboard/build">
+        <div class="build-btn-container">
+            <input type="submit" class="form__btn" value="ساخت رزومه">
+
+        </div>
+    </form>
+
+{% else %}
+    <small class="text-danger">لطفا یک نام کاربری در بخش پروفایل برای خود انتخاب کنید.</small>
+    <form method="post" action="/dashboard/build">
+
+    </form>
+
+
+{% endif %}
+
+
+</div>
