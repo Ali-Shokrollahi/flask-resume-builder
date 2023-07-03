@@ -5,7 +5,7 @@ from flask.views import MethodView
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
-from .forms import ProfileForm, SocialForm, WorkDataForm, ExperienceForm, EducationForm, SkillForm
+from .forms import ProfileForm, SocialForm, WorkDataForm, ExperienceForm, EducationForm, SkillForm, ResumeVisibilityForm
 from app.extensions import db
 from datetime import datetime
 
@@ -259,31 +259,34 @@ def delete_skill():
     abort(403)
 
 
-class BuildResumeView(MethodView):
-    page = f"dashboards/forms/skills.html"
+class ResumeView(MethodView):
+    page = f"dashboards/forms/build.html"
 
     def get(self):
         owner = current_user.profile
-        form = SkillForm()
-        skills = owner.skill
-        return render_template('dashboards/dashboard.html', page=self.page, form=form, skills=skills)
+        visibility = owner.resume.is_visible
+        form = ResumeVisibilityForm()
+        form.is_visible.data = visibility
+        return render_template('dashboards/dashboard.html', page=self.page, form=form)
 
     def post(self):
         owner = current_user.profile
-        form = SkillForm()
-
+        if len(owner.username) < 3:
+            abort(403)
+        form = ResumeVisibilityForm()
         if form.validate_on_submit():
-            skill = Skill(name=form.name.data, percent=form.percent.data, owner_id=owner.id)
+            visibility = form.is_visible.data
+            owner.resume.is_visible = visibility
 
             try:
-                db.session.add(skill)
                 db.session.commit()
                 flash("اطلاعات با موفقیت ثبت شد.", 'success')
 
+                return redirect(url_for('dashboards.resume'))
             except:
                 flash("مشکلی پیش آمده است", 'danger')
 
-        return redirect(url_for('dashboards.skills'))
+        return render_template('dashboards/dashboard.html', page=self.page, form=form)
 
 
 blueprint.add_url_rule('/', view_func=ProfileUpdate.as_view('profile_update'), methods=["GET", "POST"])
@@ -291,6 +294,7 @@ blueprint.add_url_rule('/social', view_func=SocialUpdate.as_view('social_update'
 blueprint.add_url_rule('/experiences', view_func=WorkDataView.as_view('experiences'), methods=["GET", "POST"])
 blueprint.add_url_rule('/educations', view_func=EducationView.as_view('educations'), methods=["GET", "POST"])
 blueprint.add_url_rule('/skills', view_func=SkillView.as_view('skills'), methods=["GET", "POST"])
+blueprint.add_url_rule('/resume', view_func=ResumeView.as_view('resume'), methods=["GET", "POST"])
 
 blueprint.add_url_rule('/educations/delete', view_func=delete_edu, methods=["POST"])
 blueprint.add_url_rule('/experiences/delete', view_func=delete_exp, methods=["POST"])
