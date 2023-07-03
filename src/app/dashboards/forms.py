@@ -3,7 +3,7 @@ from uuid import uuid4
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
-from wtforms import SubmitField, SelectField, StringField, IntegerField, HiddenField, FileField
+from wtforms import SubmitField, SelectField, StringField, IntegerField, HiddenField, FileField,BooleanField
 from wtforms.validators import DataRequired, Length, Optional, Regexp, ValidationError, NumberRange
 from wtforms_alchemy import ModelForm
 
@@ -78,3 +78,8 @@ class SkillForm(ModelForm, FlaskForm):
         only = ['name', 'percent']
 
     submit = SubmitField('اضافه کردن')
+
+
+class ResumeVisibilityForm(FlaskForm):
+    is_visible=BooleanField('وضعیت نمایش')
+    submit = SubmitField('ثبت')
