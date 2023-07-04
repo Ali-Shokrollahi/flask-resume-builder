@@ -260,13 +260,16 @@ def delete_skill():
 
 
 class ResumeView(MethodView):
+    decorators = [login_required]
     page = f"dashboards/forms/build.html"
 
     def get(self):
         owner = current_user.profile
         visibility = owner.resume.is_visible
+        public_pdf_download = owner.resume.public_pdf_download
         form = ResumeVisibilityForm()
         form.is_visible.data = visibility
+        form.public_pdf_download.data = public_pdf_download
         return render_template('dashboards/dashboard.html', page=self.page, form=form)
 
     def post(self):
@@ -276,7 +279,9 @@ class ResumeView(MethodView):
         form = ResumeVisibilityForm()
         if form.validate_on_submit():
             visibility = form.is_visible.data
+            public_pdf_download = form.public_pdf_download.data
             owner.resume.is_visible = visibility
+            owner.resume.public_pdf_download = public_pdf_download
 
             try:
                 db.session.commit()

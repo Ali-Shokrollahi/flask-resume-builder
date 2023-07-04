@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="http://127.0.0.1:5000/{{ url_for('static', filename='css/resume_pdf.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+
+    <style>
+        @font-face {
+            font-family: Gandom-num;
+            src: url('http://127.0.0.1:5000/static/fonts/Gandom-FD.eot?#iefix') format('embedded-opentype'),
+            url('http://127.0.0.1:5000/static/fonts/Gandom-FD.woff') format('woff'),
+            url('http://127.0.0.1:5000/static/fonts/Gandom-FD.ttf') format('truetype');
+            font-weight: normal;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="top-header">
+    <div class="top-header__content">
+        <h2>
+            {{ profile.first_name }} {{ profile.last_name }}
+        </h2>
+        <h3>
+            {{ profile.job }}
+        </h3>
+    </div>
+
+
+    <div class="profile-photo">
+        {% if profile.photo %}
+            {% set p="uploads/profiles/"+profile.photo %}
+        {% elif profile.gender=="زن" %}
+            {% set p="images/woman.png" %}
+        {% else %}
+            {% set p="images/man.png" %}
+        {% endif %}
+
+        <img class="profile-photo__image" src="http://127.0.0.1:5000/{{ url_for('static', filename=p) }} ">
+    </div>
+</div>
+<div class="main">
+    <div class="educations">
+        <div class="section-title">
+            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+            <h3>سوابق تحصیلی</h3>
+
+
+        </div>
+        <hr style="width:70%;height: 4px;border: none;background-color: #2E75B5;margin-right: 0;border-radius: 5px">
+        {% for education in profile.education %}
+            <div class="education">
+                <h4><span>مدرک: </span> {{ education.title }} </h4>
+                <h4><span>محل تحصیل: </span>{{ education.school }}</h4>
+                <h4><span>مدت تحصیل: </span>{{ education.duration }} سال</h4>
+                <hr style="width:10%;height: 4px;border: none;background-color: #2E75B5;border-radius: 5px">
+
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+    <div class="educations">
+        <div class="section-title">
+            <i class="fa fa-briefcase" aria-hidden="true"></i>
+            <h3>سوابق شغلی</h3>
+
+
+        </div>
+        <hr style="width:70%;height: 4px;border: none;background-color: #2E75B5;margin-right: 0;border-radius: 5px">
+        {% for experience in profile.experience %}
+            <div class="experience">
+                <h4><span>عنوان شغلی: </span> {{ experience.title }} </h4>
+                <h4><span>محل شغل: </span>{{ experience.company }}</h4>
+                <h4><span>مدت کاری: </span>{{ experience.duration }} سال</h4>
+                <hr style="width:10%;height: 4px;border: none;background-color: #2E75B5;border-radius: 5px">
+
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+</div>
+<div class="slider">
+    <div class="slider__content">
+        <small>
+            {{ profile.bio }}
+        </small>
+        <div class="slider__content-contact mb-3">
+            <h3>اطلاعات تماس</h3>
+            <hr style="width:50%;height: 3px;border: none;background-color: #2E75B5">
+            <div class="contact">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <p>{{ profile.user.email }}</p>
+            </div>
+            {% if  profile.social.linkedin %}
+                <div class="contact">
+                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    <p>{{ profile.social.linkedin }}</p></div>
+            {% endif %}
+            {% if  profile.social.instagram %}
+                <div class="contact">
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                    <p>{{ profile.social.instagram }}</p>
+                </div>
+            {% endif %}
+            {% if  profile.social.telegram %}
+                <div class="contact">
+                    <i class="fa fa-telegram" aria-hidden="true"></i>
+                    <p>{{ profile.social.telegram }}</p>
+                </div>
+            {% endif %}
+            {% if  profile.social.github %}
+                <div class="contact">
+                    <i class="fa fa-github" aria-hidden="true"></i>
+                    <p>{{ profile.social.github }}</p>
+                </div>
+            {% endif %}
+            {% if  profile.social.pinterest %}
+
+                <div class="contact">
+                    <i class="fa fa-pinterest" aria-hidden="true"></i>
+                    <p>{{ profile.social.pinterest }}</p>
+                </div>
+            {% endif %}
+
+
+
+            <hr style="width:10%;height: 3px;border: none;background-color: #2E75B5">
+
+        </div>
+        <div class="slider__content-skills mb-3">
+            <h3>مهارت ها</h3>
+            <hr style="width:50%;height: 3px;border: none;background-color: #2E75B5">
+            {% for skill in profile.skill %}
+                <div class="skill">
+                    <h4 class="skill__text">{{ skill.name }}</h4>
+                    <div class="skill__line">
+                        <div class="skill__online" style="width: {{ skill.percent }}%;">
+                            <div class="skill__value">
+
+                            </div>
+
+                            <span class="skill__circel">
+
+                                    </span>
+                        </div>
+                    </div>
+                </div>
+
+
+            {% endfor %}
+            <hr style="width:10%;height: 3px;border: none;background-color: #2E75B5">
+
+
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@ from uuid import uuid4
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
-from wtforms import SubmitField, SelectField, StringField, IntegerField, HiddenField, FileField,BooleanField
+from wtforms import SubmitField, SelectField, StringField, IntegerField, HiddenField, FileField, BooleanField
 from wtforms.validators import DataRequired, Length, Optional, Regexp, ValidationError, NumberRange
 from wtforms_alchemy import ModelForm
 
@@ -23,7 +23,8 @@ class ProfileForm(ModelForm, FlaskForm):
     gender = SelectField(choices=["مرد", "زن"], validators=[Optional()])
     birthday = StringField(validators=[Optional()])
     photo = FileField(
-        validators=[Optional(), FileAllowed(['jpg', 'jpeg', 'png'], message="فایل مجاز نیست. فایل های مجاز (png, jpg, jpeg)")])
+        validators=[Optional(),
+                    FileAllowed(['jpg', 'jpeg', 'png'], message="فایل مجاز نیست. فایل های مجاز (png, jpg, jpeg)")])
 
     submit = SubmitField('تغییر اطلاعات')
 
@@ -81,5 +82,6 @@ class SkillForm(ModelForm, FlaskForm):
 
 
 class ResumeVisibilityForm(FlaskForm):
-    is_visible=BooleanField('وضعیت نمایش')
+    is_visible = BooleanField('وضعیت نمایش')
+    public_pdf_download = BooleanField('قابلیت دانلود همگانی رزومه')
     submit = SubmitField('ثبت')
