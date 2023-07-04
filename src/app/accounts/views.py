@@ -8,8 +8,8 @@ from .token import generate_token, confirm_token
 from app.extensions import db
 from app.utils.email import send_email
 from app.utils.decorators import redirect_authenticated_user
-from ..dashboards.models import Profile
-from ..resumes.models import Resume
+from app.dashboards.models import Profile
+from app.resumes.models import Resume
 
 blueprint = Blueprint('accounts', __name__, url_prefix='/account', template_folder='templates/accounts')
 
