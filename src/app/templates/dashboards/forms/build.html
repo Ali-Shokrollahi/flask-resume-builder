@@ -8,43 +8,59 @@
     <hr class="mx-auto">
     <h5>وضعیت صفحه رزومه</h5>
     {% if current_user.profile.username %}
-    <form method="post" class="mt-3">
-        {{form.hidden_tag() }}
-        <div class="form__row d-flex">
-            <div class="form-check form-switch">
-                {{form.is_visible(class="form-check-input",role="switch")}}
-                {{form.is_visible.label}}
+        <form method="post" class="mt-3">
+            {{ form.hidden_tag() }}
+            <div class="form__row d-flex">
+                <div class="form-check form-switch">
+                    {{ form.is_visible(class="form-check-input",role="switch") }}
+                    {{ form.is_visible.label }}
+                </div>
+
+
+            </div>
+            <div class="form__row d-flex">
+                <div class="form-check form-switch">
+                    {{ form.public_pdf_download(class="form-check-input",role="switch") }}
+                    {{ form.public_pdf_download.label }}
+                </div>
+
+
             </div>
 
+            <div class="form__input col-3 col-md-2 mx-auto mt-4">
+                {{ form.submit }}
+            </div>
 
-        </div>
-
-        <div class="form__input col-3 col-md-2 mx-auto mt-4">
-            {{ form.submit }}
-        </div>
-
-    </form>
+        </form>
 
     {% else %}
-    <small class="text-danger">لطفا یک نام کاربری در بخش پروفایل برای خود انتخاب کنید.</small>
-    <form method="post" class="mt-3">
-        <div class="form__row d-flex">
-            <div class="form-check form-switch">
-                {{form.is_visible(class="form-check-input",role="switch",disabled="true")}}
-                {{form.is_visible.label}}
+        <small class="text-danger">لطفا یک نام کاربری در بخش پروفایل برای خود انتخاب کنید.</small>
+        <form method="post" class="mt-3">
+            <div class="form__row d-flex">
+                <div class="form-check form-switch">
+                    {{ form.is_visible(class="form-check-input",role="switch",disabled="true") }}
+                    {{ form.is_visible.label }}
+                </div>
+
+
             </div>
 
+            <div class="form__input col-3 col-md-2 mx-auto mt-4">
+                {{ form.submit(disabled="true") }}
+            </div>
 
-        </div>
-
-        <div class="form__input col-3 col-md-2 mx-auto mt-4">
-            {{ form.submit(disabled="true") }}
-        </div>
-
-    </form>
+        </form>
 
 
     {% endif %}
+    <hr class="mx-auto">
+    {% if current_user.profile.username %}
+
+        <a href="{{ url_for('resumes.download_pdf',username=current_user.profile.username) }}" class="btn btn-outline-dark">دانلود
+            pdf رزومه</a>
+
+    {% endif %}
+
 </div>
 
 

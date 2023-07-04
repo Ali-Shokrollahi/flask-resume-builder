@@ -28,14 +28,14 @@ def show_resume(username: str):
                            educations=education, skills=skill)
 
 
-@login_required
-def download_pdf():
-    profile = current_user.profile
-    work_datas = profile.work_datas
-    social = profile.social
-    experience = profile.experience
-    education = profile.education
-    skill = profile.skill
+def download_pdf(username: str):
+    profile = Profile.query.filter_by(username=username).first_or_404()
+    if not profile.resume.public_pdf_download:
+        if current_user.is_authenticated:
+            if current_user.profile.id != profile.id:
+                abort(404)
+        else:
+            abort(404)
 
     html = render_template('resumes/test.html', profile=profile)
     path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
@@ -57,8 +57,8 @@ def download_pdf():
     response = make_response(pdf)
     response.headers["Content-Type"] = "application/pdf"
     response.headers["Content-Disposition"] = "inline; filename=output.pdf"
-    return html
+    return response
 
 
 blueprint.add_url_rule('/<string:username>', view_func=show_resume, methods=["GET"])
-blueprint.add_url_rule('/pdf-download', view_func=download_pdf, methods=["GET"])
+blueprint.add_url_rule('/pdf-download/<string:username>', view_func=download_pdf, methods=["GET"])
