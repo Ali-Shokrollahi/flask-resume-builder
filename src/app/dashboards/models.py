@@ -21,6 +21,7 @@ class Profile(BaseModel):
     experience = db.relationship('Experience')
     education = db.relationship('Education')
     skill = db.relationship('Skill')
+    portfolio = db.relationship('Portfolio')
 
     resume = db.relationship('app.resumes.models.Resume', uselist=False)
 
@@ -74,4 +75,13 @@ class Skill(BaseModel):
 
     name = db.Column(db.String(32), nullable=False)
     percent = db.Column(db.Integer, nullable=False, default=0)
+    owner_id = db.Column(db.Integer, db.ForeignKey('profiles.id'))
+
+
+class Portfolio(BaseModel):
+    __tablename__ = "portfolios"
+
+    name = db.Column(db.String(64), nullable=False)
+    link = db.Column(db.String(256), nullable=False)
+    image = db.Column(db.String(64))
     owner_id = db.Column(db.Integer, db.ForeignKey('profiles.id'))
