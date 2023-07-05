@@ -26,10 +26,10 @@ $(document).ready(function () {
         }
     }
 
-    $(window).on('load', function () {
-        typeHeaderTitle();
-        typeHeaderDes();
-    });
+
+    typeHeaderTitle();
+    typeHeaderDes();
+
 
     var icon = $(".menu__icon");
     var menu = $(".nav__list");

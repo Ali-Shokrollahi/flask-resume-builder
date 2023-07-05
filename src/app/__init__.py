@@ -6,12 +6,14 @@ from app.extensions import db, migrate, bcrypt, login_manager, mail
 from app.accounts.views import blueprint as account_blueprint
 from app.dashboards.views import blueprint as dashboard_blueprint
 from app.resumes.views import blueprint as resume_blueprint
+from app.home.views import blueprint as home_blueprint
 
 
 def register_blueprints(app):
     app.register_blueprint(account_blueprint)
     app.register_blueprint(dashboard_blueprint)
     app.register_blueprint(resume_blueprint)
+    app.register_blueprint(home_blueprint)
 
 
 def register_shell_context(app):
