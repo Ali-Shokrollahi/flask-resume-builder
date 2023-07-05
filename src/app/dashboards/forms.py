@@ -7,7 +7,7 @@ from wtforms import SubmitField, SelectField, StringField, IntegerField, HiddenF
 from wtforms.validators import DataRequired, Length, Optional, Regexp, ValidationError, NumberRange
 from wtforms_alchemy import ModelForm
 
-from app.dashboards.models import Profile, Social, WorkData, Experience, Education, Skill
+from app.dashboards.models import Profile, Social, WorkData, Experience, Education, Skill, Portfolio
 
 
 class ProfileForm(ModelForm, FlaskForm):
@@ -85,3 +85,22 @@ class ResumeVisibilityForm(FlaskForm):
     is_visible = BooleanField('وضعیت نمایش')
     public_pdf_download = BooleanField('قابلیت دانلود همگانی رزومه')
     submit = SubmitField('ثبت')
+
+
+class PortfolioForm(ModelForm, FlaskForm):
+    class Meta:
+        model = Portfolio
+        only = ['name', 'link', 'image']
+
+    image = FileField(
+        validators=[Optional(),
+                    FileAllowed(['jpg', 'jpeg', 'png'], message="فایل مجاز نیست. فایل های مجاز (png, jpg, jpeg)")])
+
+    submit = SubmitField('اضافه کردن')
+
+    def validate_image(self, field):
+        if field.data:
+            filename = str(field.data.filename)
+            ext = filename.split(".")[-1].lower()
+            new_name = f"{str(uuid4())}.{ext}"
+            field.data.filename = new_name

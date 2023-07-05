@@ -1,0 +1,87 @@
+<div class="dashboard__form">
+    <h2 class="form__title">نمونه کارها</h2>
+    <div class="content-box  scroll px-1">
+        <div class="row">
+            {% for portfolio in portfolios %}
+                <div class="col-12 col-md-6 mb-2" id="portfolio-{{ portfolio.id }}">
+                    <div class="card" style="height: 290px">
+                        <img style="height: 180px" class="card-img-top border-bottom"
+                             src="{{ url_for('static', filename='uploads/portfolios/'+portfolio.image) }}"
+                             alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4"><a class="c-blue" href="{{ portfolio.link }}">{{ portfolio.name }}</a></h5>
+
+                            <div class="add-job-button bg-danger me-auto"
+                                 onclick="delete_por({{ portfolio.id }})"><span
+                                    class="fa fa-trash"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+
+
+    </div>
+
+
+    <div class="form__row d-flex">
+        <div class="form__input col-12">
+            <div class="add-job-button" onclick="add_job(this)"><span class="fa fa-plus"></span></div>
+        </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="add-job">
+            {{ form.hidden_tag() }}
+            <div class="form__row d-flex">
+                <div class="form__input col-12  col-lg-2">
+                    <label class="t-center">نام پروژه </label>
+                </div>
+
+                <div class="form__input col-12  col-lg-10">
+                    {{ form.name }}
+                </div>
+
+
+            </div>
+
+            <div class="form__row d-flex">
+
+                <div class="form__input col-12  col-lg-2">
+                    <label>لینک پروژه</label>
+                </div>
+                <div class="form__input col-12  col-lg-10">
+                    {{ form.link(placeholder="مانند صفحه اصلی پروژه، صفحه گیتهاب و ...") }}
+                </div>
+
+            </div>
+
+            <div class="form__row d-flex">
+                <div class="form__input col-lg-3">
+                    <label for=""> تصویر پروژه :</label>
+                </div>
+                <div class="form__input  col-lg-9">
+                    {{ form.image }}
+                </div>
+                {% for error in form.errors.image %}
+                    <small>   {{ error }}</small>
+                {% endfor %}
+            </div>
+            <div class="form__row">
+
+                <div class="form__input col-4 col-md-3 mx-auto">
+                    {{ form.submit }}
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
+    <script src="{{ url_for('static',filename='js/Jquery.min.js') }}"></script>
+
+
+</div>

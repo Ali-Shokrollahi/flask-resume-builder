@@ -68,6 +68,21 @@ function delete_skill(skill_id) {
 
 }
 
+function delete_por(portfolio_id) {
+    if (confirm('آیا از حذف این مورد اطمینان دارید؟')) {
+        $.post("/dashboard/portfolios/delete",
+            {
+                id: portfolio_id
+            }, function (response) {
+                $('#portfolio-' + portfolio_id).remove();
+
+            }
+        )
+    }
+
+
+}
+
 function showpic(elem) {
 
     $(elem).parent().find("#file").trigger("click")

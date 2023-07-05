@@ -5,11 +5,12 @@ from flask.views import MethodView
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
-from .forms import ProfileForm, SocialForm, WorkDataForm, ExperienceForm, EducationForm, SkillForm, ResumeVisibilityForm
+from .forms import ProfileForm, SocialForm, WorkDataForm, ExperienceForm, EducationForm, SkillForm, \
+    ResumeVisibilityForm, PortfolioForm
 from app.extensions import db
 from datetime import datetime
 
-from .models import Profile, Social, WorkData, Experience, Education, Skill
+from .models import Profile, Social, WorkData, Experience, Education, Skill, Portfolio
 
 blueprint = Blueprint('dashboards', __name__, url_prefix='/dashboard')
 
@@ -202,11 +203,13 @@ class EducationView(MethodView):
                 db.session.add(ed)
                 db.session.commit()
                 flash("اطلاعات با موفقیت ثبت شد.", 'success')
+                return redirect(url_for('dashboards.educations'))
+
 
             except:
                 flash("مشکلی پیش آمده است", 'danger')
 
-        return redirect(url_for('dashboards.educations'))
+        return render_template('dashboards/dashboard.html', page=self.page, form=form)
 
 
 @login_required
@@ -241,11 +244,13 @@ class SkillView(MethodView):
                 db.session.add(skill)
                 db.session.commit()
                 flash("اطلاعات با موفقیت ثبت شد.", 'success')
+                return redirect(url_for('dashboards.skills'))
+
 
             except:
                 flash("مشکلی پیش آمده است", 'danger')
 
-        return redirect(url_for('dashboards.skills'))
+        return render_template('dashboards/dashboard.html', page=self.page, form=form)
 
 
 @login_required
@@ -256,6 +261,52 @@ def delete_skill():
         db.session.delete(skill)
         db.session.commit()
         return jsonify({'message': 'Skill deleted successfully'})
+    abort(403)
+
+
+class PortfolioView(MethodView):
+    decorators = [login_required]
+    page = f"dashboards/forms/portfolio.html"
+
+    def get(self):
+        owner = current_user.profile
+        form = PortfolioForm()
+        portfolios = owner.portfolio
+        return render_template('dashboards/dashboard.html', page=self.page, form=form, portfolios=portfolios)
+
+    def post(self):
+        owner = current_user.profile
+        form = PortfolioForm()
+
+        if form.validate_on_submit():
+            portfolio = Portfolio(name=form.name.data, link=form.link.data, owner_id=owner.id)
+            image = form.image.data
+            if image:
+                filename = secure_filename(image.filename)
+                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], 'portfolios', filename))
+                portfolio.image = filename
+
+            try:
+                db.session.add(portfolio)
+                db.session.commit()
+                flash("اطلاعات با موفقیت ثبت شد.", 'success')
+                return redirect(url_for('dashboards.portfolios'))
+
+
+            except:
+                flash("مشکلی پیش آمده است", 'danger')
+
+        return render_template('dashboards/dashboard.html', page=self.page, form=form)
+
+
+@login_required
+def delete_portfolio():
+    portfolio_id = request.form.get('id')
+    portfolio = Portfolio.query.get_or_404(portfolio_id)
+    if portfolio.owner_id == current_user.id:
+        db.session.delete(portfolio)
+        db.session.commit()
+        return jsonify({'message': 'Portfolio deleted successfully'})
     abort(403)
 
 
@@ -299,8 +350,10 @@ blueprint.add_url_rule('/social', view_func=SocialUpdate.as_view('social_update'
 blueprint.add_url_rule('/experiences', view_func=WorkDataView.as_view('experiences'), methods=["GET", "POST"])
 blueprint.add_url_rule('/educations', view_func=EducationView.as_view('educations'), methods=["GET", "POST"])
 blueprint.add_url_rule('/skills', view_func=SkillView.as_view('skills'), methods=["GET", "POST"])
+blueprint.add_url_rule('/portfolios', view_func=PortfolioView.as_view('portfolios'), methods=["GET", "POST"])
 blueprint.add_url_rule('/resume', view_func=ResumeView.as_view('resume'), methods=["GET", "POST"])
 
 blueprint.add_url_rule('/educations/delete', view_func=delete_edu, methods=["POST"])
 blueprint.add_url_rule('/experiences/delete', view_func=delete_exp, methods=["POST"])
 blueprint.add_url_rule('/skills/delete', view_func=delete_skill, methods=["POST"])
+blueprint.add_url_rule('/portfolios/delete', view_func=delete_portfolio, methods=["POST"])
