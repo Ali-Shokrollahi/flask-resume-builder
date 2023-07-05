@@ -2,117 +2,127 @@
 
 
 {% block header %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="header__image__wrapper">
-                <img class="header__image" src="{{ url_for('static', filename='images/headerimg.png') }}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="header__image__wrapper">
+                    <img class="header__image" src="{{ url_for('static', filename='images/headerimg.png') }}">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h1 class="header__title mt-0"></h1>
+                <h2 class="header__description"></h2>
+                <a class="header__btn" href="">همین الان شروع کنید</a>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <h1 class="header__title mt-0"></h1>
-            <h2 class="header__description"></h2>
-            <a class="header__btn" href="">همین الان شروع کنید</a>
-        </div>
     </div>
-
-</div>
 {% endblock %}
 
 
 {% block content %}
 
-<img class="w-100 header__line" src="{{ url_for('static', filename='images/line.png') }}" alt="">
-<main>
-    <section class="sevices">
-        <div class="container">
+    <img class="w-100 header__line" src="{{ url_for('static', filename='images/line.png') }}" alt="">
+    <main>
+        <section class="sevices">
+            <div class="container">
 
-            <div class="section__info mx-auto">
-                <h2 class="section__title">خدمات ما</h2>
-                <img class="w-100" src="{{ url_for('static', filename='images/lineTitle.png') }}" alt="">
+                <div class="section__info mx-auto">
+                    <h2 class="section__title">خدمات ما</h2>
+                    <img class="w-100" src="{{ url_for('static', filename='images/lineTitle.png') }}" alt="">
 
 
-            </div>
+                </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="service d-flex">
-                        <span class="fa fa-cloud"></span>
-                        <div class="service__info">
-                            <h3 class="mb-0  service__title">ساخت رزومه آنلاین</h3>
-                            <p class="mt-0 service__description">با رزومه باز می توانید به سادگی و در چند مرحله
-                                رزومه
-                                آنلاین خود را بسازید وآن را به اشتراک بگذارید.</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="service d-flex">
+                            <span class="fa fa-cloud"></span>
+                            <div class="service__info">
+                                <h3 class="mb-0  service__title">ساخت رزومه آنلاین</h3>
+                                <p class="mt-0 service__description">با رزومه باز می توانید به سادگی و در چند مرحله
+                                    رزومه
+                                    آنلاین خود را بسازید وآن را به اشتراک بگذارید.</p>
+                            </div>
+                        </div>
+                        <div class="service d-flex">
+                            <span class="fa fa-file-pdf-o"></span>
+                            <div class="service__info">
+                                <h3 class="mb-0  service__title">دریافت فایل pdf</h3>
+                                <p class="mt-0 service__description">رزومه باز همزمان با ساخت صفحه اختصاصی شما، این
+                                    امکان در
+                                    اختیارتون قرار میده تا بتونید از پروفایل خودتون فایل pdf دریافت کنید.</p>
+                            </div>
+                        </div>
+                        <div class="service d-flex">
+                            <span class="fa fa-cogs"></span>
+                            <div class="service__info">
+                                <h3 class="mb-0 service__title">قالب زیبا و حرفه ای</h3>
+                                <p class="mt-0 service__description"> رزومه باز با ایجاد قالب های متنوع و حرفه ای، با
+                                    امکان
+                                    شخصی سازی کمک می کنه تا شما وبازدیدکنندگان بهترین تجریه را داشته باشند.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="service d-flex">
-                        <span class="fa fa-file-pdf-o"></span>
-                        <div class="service__info">
-                            <h3 class="mb-0  service__title">دریافت فایل pdf</h3>
-                            <p class="mt-0 service__description">رزومه باز همزمان با ساخت صفحه اختصاصی شما، این
-                                امکان در
-                                اختیارتون قرار میده تا بتونید از پروفایل خودتون فایل pdf دریافت کنید.</p>
+                    <div class="col-md-6 t-center">
+                        <img class=" services__image" src="../static/images/services.png">
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="usage">
+
+            <div class="container">
+                <div class="section__info mx-auto">
+                    <h2 class="section__title">نحوه استفاده</h2>
+                    <img class="w-100" src="{{ url_for('static', filename='images/lineTitle.png') }}" alt="">
+
+
+                </div>
+
+                <div class="row align-center  justify-content-center">
+                    <div class="col-12 col-md-3">
+                        <div class="d-flex c-blue">
+                            <i style="font-size: 30px" class="fa fa-sign-in" aria-hidden="true"></i>
+                            <h4>ثبت نام کنید</h4>
                         </div>
+
+                        <small class="c-orange">در پلتفرم ما ثبت نام کنید.</small>
                     </div>
-                    <div class="service d-flex">
-                        <span class="fa fa-cogs"></span>
-                        <div class="service__info">
-                            <h3 class="mb-0 service__title">قالب زیبا و حرفه ای</h3>
-                            <p class="mt-0 service__description"> رزومه باز با ایجاد قالب های متنوع و حرفه ای، با
-                                امکان
-                                شخصی سازی کمک می کنه تا شما وبازدیدکنندگان بهترین تجریه را داشته باشند.</p>
+                    <div class="d-none d-md-block col-md-1">
+                        <i style="font-size: 64px" class="fa fa-long-arrow-left c-orange" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="d-flex c-blue">
+                            <i style="font-size: 30px" class="fa fa-tachometer" aria-hidden="true"></i>
+                            <h4>اطلاعات خود را وارد کنید</h4>
                         </div>
+
+                        <small class="c-orange">به راحتی در پنل کاربری اطلاعات خود را ثبت کنید.</small>
                     </div>
-                </div>
-                <div class="col-md-6 t-center">
-                    <img class=" services__image" src="../static/images/services.png">
+                    <div class="d-none d-md-block col-md-1">
+                        <i style="font-size: 64px" class="fa fa-long-arrow-left c-orange" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="d-flex c-blue">
+                            <i style="font-size: 30px" class="fa fa-tachometer" aria-hidden="true"></i>
+                            <h4>رزومه خود را تحویل بگیرید!</h4>
+                        </div>
+
+                        <small class="c-orange">رزومه شما آمادست! می توانید آن را دانلود کنید و یا لینک آن را به اشتراک بگذارید.</small>
+                    </div>
+
                 </div>
 
             </div>
+        </section>
 
-        </div>
-    </section>
-
-    <section class="usage">
-
-        <div class="container">
-            <div class="section__info mx-auto">
-                <h2 class="section__title">نحوه استفاده</h2>
-                <img class="w-100" src="{{ url_for('static', filename='images/lineTitle.png') }}" alt="">
-
-
-            </div>
-
-            <div class="row align-center">
-                <div class="col-md-3">
-                    <div class="d-flex c-blue">
-                        <i style="font-size: 30px" class="fa fa-sign-in" aria-hidden="true"></i>
-                        <h4>ثبت نام کنید</h4>
-                    </div>
-
-                    <small class="c-orange">در پلتفرم ما ثبت نام کنید.</small>
-                </div>
-                <div class="col-md-1">
-                    <i style="font-size: 64px" class="fa fa-long-arrow-left c-orange" aria-hidden="true"></i>
-                </div>
-                 <div class="col-md-3">
-                    <div class="d-flex c-blue">
-                        <i style="font-size: 30px" class="fa fa-sign-in" aria-hidden="true"></i>
-                        <h4>اطلاعات خود را وارد کنید</h4>
-                    </div>
-
-                    <small class="c-orange">به راحتی در پنل کاربری اطلاعات خود را ثبت کنید.</small>
-                </div>
-                <div class="col-md-1">
-                    <i style="font-size: 64px" class="fa fa-long-arrow-left c-orange" aria-hidden="true"></i>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-</main>
+    </main>
 
 {% endblock %}
 
