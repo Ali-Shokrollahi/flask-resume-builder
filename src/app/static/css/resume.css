@@ -346,3 +346,8 @@ body {
 .portfolio__text{
     padding: 10px;
 }
+
+.carousel-cell {
+    width: 100%;
+    color: #585665;
+}

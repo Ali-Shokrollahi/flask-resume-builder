@@ -56,8 +56,11 @@
     <hr class="mx-auto">
     {% if current_user.profile.username %}
 
-        <a href="{{ url_for('resumes.download_pdf',username=current_user.profile.username) }}" class="btn btn-outline-dark">دانلود
+        <a href="{{ url_for('resumes.download_pdf',username=current_user.profile.username) }}" class="btn btn-outline-dark mb-3">دانلود
             pdf رزومه</a>
+        <br>
+
+        <a href="{{ url_for('resumes.show_resume',username=current_user.profile.username) }}" class="btn btn-outline-primary">نمایش رزومه</a>
 
     {% endif %}
 

@@ -26,8 +26,8 @@
         <nav class="d-flex">
             <ul class="nav__list">
                 <li class="nav__item"><a href="/">خانه</a></li>
-                <li class="nav__item "><a href="">خدمات</a></li>
-                <li class="nav__item"><a href="">نحوه استفاده</a></li>
+                <li class="nav__item "><a href="#services">خدمات</a></li>
+                <li class="nav__item"><a href="#usage">نحوه استفاده</a></li>
                 <li class="nav__item"><a href="">حمایت از ما</a></li>
                 {% if current_user.is_authenticated %}
                     <li class="nav__item"><a href="{{ url_for('dashboards.profile_update') }}" class="btn nav__btn">

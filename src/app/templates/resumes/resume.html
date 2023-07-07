@@ -223,7 +223,7 @@
                 <div class="main-carousel">
                     {% for portfolio in profile.portfolio %}
                         <div class="carousel-cell portfolio-card">
-                            <a href="{{ portfolio.link }}">
+                            <a href="{{ portfolio.link }}" target="_blank">
                                 <div class="portfolio__image__wrapper">
                                     <img class="portfolio__image w-100"
                                          src="{{ url_for('static', filename='uploads/portfolios/'+portfolio.image) }}"

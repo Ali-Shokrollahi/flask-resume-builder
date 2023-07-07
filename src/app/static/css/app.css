@@ -4,6 +4,10 @@
     font-family: Gandom;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
 
     direction: rtl;
@@ -138,7 +142,14 @@ nav {
 }
 
 
-.carousel-cell {
-    width: 100%;
-    color: #585665;
+
+
+.support__card{
+    max-width: 600px;
+    background-color: #457b9d;
+    margin: 0 auto;
+    padding: 20px;
+    color: #FAFBFC;
+    border-radius: 30px;
+    text-align: center;
 }

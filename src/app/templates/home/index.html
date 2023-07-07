@@ -25,7 +25,7 @@
 
     <img class="w-100 header__line" src="{{ url_for('static', filename='images/line.png') }}" alt="">
     <main>
-        <section class="sevices">
+        <section id="services" class="services">
             <div class="container">
 
                 <div class="section__info mx-auto">
@@ -74,7 +74,7 @@
             </div>
         </section>
 
-        <section class="usage">
+        <section id="usage" class="usage">
 
             <div class="container">
                 <div class="section__info mx-auto">
@@ -114,12 +114,41 @@
                             <h4>رزومه خود را تحویل بگیرید!</h4>
                         </div>
 
-                        <small class="c-orange">رزومه شما آمادست! می توانید آن را دانلود کنید و یا لینک آن را به اشتراک بگذارید.</small>
+                        <small class="c-orange">رزومه شما آمادست! می توانید آن را دانلود کنید و یا لینک آن را به اشتراک
+                            بگذارید.</small>
                     </div>
 
                 </div>
 
             </div>
+        </section>
+
+        <section id="support" class="support">
+
+            <div class="container">
+                <div class="section__info mx-auto">
+                    <h2 class="section__title">حمایت از ما</h2>
+                    <img class="w-100" src="{{ url_for('static', filename='images/lineTitle.png') }}" alt="">
+
+
+                </div>
+
+
+                <div class="support__card">
+                    <h3 class="mb-3">به راحتی با استفاده از لینک زیر از ما حمایت کنید</h3>
+
+                    <a href="https://www.coffeete.ir/ali_shokrollahi"
+                       target="_blank" class="btn btn-dark mb-4">حمایت از ما</a>
+
+                    <p>این حمایت شما باعث می شود که ما بتوانیم به صورت رایگان به ارائه خدمات خود ادامه دهیم و همواره
+                        در تلاش برای بهتر شدن باشیم.</p>
+
+
+                </div>
+
+            </div>
+
+
         </section>
 
     </main>
