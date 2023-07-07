@@ -60,7 +60,20 @@ $(document).ready(function () {
     setTimeout(function () {
         $('#flash-messages').fadeOut('slow');
     }, 4000);
-});
+
+    $('.main-carousel').flickity({
+        // options
+        cellAlign: 'right',
+        contain: true,
+        prevNextButtons: false,
+        pageDots: false,
+        groupCells: false,
+        autoPlay: true
+
+
+    });
+})
+;
 
 
 

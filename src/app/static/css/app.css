@@ -17,12 +17,12 @@ ul {
 
 a {
     text-decoration: none;
+    color: inherit;
 }
 
 
-
 header .row {
-align-items: center;
+    align-items: center;
 }
 
 nav {
@@ -34,7 +34,7 @@ nav {
 
 }
 
-.nav__list {    
+.nav__list {
     font-weight: bold;
     align-items: center;
     display: flex;
@@ -45,7 +45,7 @@ nav {
     font-size: 17px;
 }
 
-.nav__item a{
+.nav__item a {
     color: #585665;
 }
 
@@ -55,7 +55,7 @@ nav {
     color: #FAFBFC !important;
 }
 
-.logo__wrapper{
+.logo__wrapper {
     width: 100px;
     height: 100px;
 }
@@ -64,19 +64,19 @@ nav {
     border-bottom: 3px solid #FF893A;
 }
 
-.header__title{
+.header__title {
     text-align: center;
     color: #FF893A;
     font-size: 3rem;
 }
 
-.header__description{
+.header__description {
     text-align: center;
     color: #457b9d;
     font-size: 2rem;
 }
 
-.header__btn{
+.header__btn {
     font-size: 22px;
     color: #FAFBFC;
     padding: 15px 40px;
@@ -86,14 +86,14 @@ nav {
     text-align: center;
 }
 
-.header__image__wrapper{
+.header__image__wrapper {
     padding: 20px;
     text-align: center;
 }
 
-.header__image{
+.header__image {
     width: 90%;
-     height: 520px;
+    height: 520px;
 }
 
 
@@ -105,35 +105,40 @@ nav {
     color: #585665;
 }
 
-.section__title{
+.section__title {
     font-size: 1.7rem;
     margin-bottom: 0;
     font-weight: bold;
 }
 
 
-
-.service{
-align-items: center;
-margin-bottom: 20px;
+.service {
+    align-items: center;
+    margin-bottom: 20px;
 
 }
 
-.service span{
+.service span {
     font-size: 50px;
     color: #FF893A;
     margin-left: 25px;
 }
 
-.services__image{
+.services__image {
     height: 400px;
     width: 80%;
 }
 
-.service__title{
+.service__title {
     color: #457b9d;
 }
-.service__description{
+
+.service__description {
     color: #585665;
 }
 
+
+.carousel-cell {
+    width: 100%;
+    color: #585665;
+}

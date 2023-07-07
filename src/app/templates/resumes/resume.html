@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/resume.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flickity.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -53,15 +52,15 @@
         <div class="workdata">
             <div class="d-flex workdata__wrapper">
                 <div class="mt-0 info-box workdata__box workdata__project">
-                    <h2 class="m-0 f-num">{{ workdata.number_of_projects }}+</h2>
+                    <h2 class="m-0 f-num">{{ profile.work_datas.number_of_projects }}+</h2>
                     <p class="m-0">پروژه</p>
                 </div>
                 <div class="mt-0 info-box workdata__box workdata__customers">
-                    <h2 class="m-0 f-num">{{ workdata.number_of_customer }}+</h2>
+                    <h2 class="m-0 f-num">{{ profile.work_datas.number_of_customer }}+</h2>
                     <p class="m-0">مشتری</p>
                 </div>
                 <div class="mt-0 info-box workdata__box workdata__experience">
-                    <h2 class="m-0 f-num"> {{ workdata.experience }} سال</h2>
+                    <h2 class="m-0 f-num"> {{ profile.work_datas.experience }} سال</h2>
                     <p class="m-0">تجربه</p>
                 </div>
 
@@ -75,50 +74,49 @@
                     <li class="address">
                         <div class="address_icon_wrapper"><span class="fa fa-envelope address_icon"></span></div>
                         <a class="address__link" target="_blank"
-                           href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+                           href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a>
                     </li>
-                    <li class="address">
-                        <div class="address_icon_wrapper"><span class="fa fa-phone address_icon"></span></div>
-                        <a class="address__link" href="tel:{{ profile.number }}">{{ profile.number }}</a>
-                    </li>
+                    {% if profile.social.telegram %}
+                        <li class="address">
+                            <div class="address_icon_wrapper"><span class="fa fa-telegram address_icon"></span></div>
+                            <a class="address__link" target="_blank"
+                               href="https://t.me/{{ profile.social.telegram }}">{{ profile.social.telegram }}</a>
+                        </li>
+                    {% endif %}
 
-                    <li class="address">
-                        <div class="address_icon_wrapper"><span class="fa fa-telegram address_icon"></span></div>
-                        <a class="address__link" target="_blank"
-                           href="{{ social.telegram }}">{{ social.telegram|replace("https://t.me/","")
-                           |replace("/","") }}</a>
-                    </li>
+                    {% if profile.social.instagram %}
+                        <li class="address">
+                            <div class="address_icon_wrapper"><span class="fa fa-instagram address_icon"></span></div>
+                            <a class="address__link" target="_blank"
 
+                               href="https://www.instagram.com/{{ profile.social.instagram }}">{{ profile.social.instagram }}</a>
+                        </li>
+                    {% endif %}
 
-                    <li class="address">
-                        <div class="address_icon_wrapper"><span class="fa fa-instagram address_icon"></span></div>
-                        <a class="address__link" target="_blank"
+                    {% if profile.social.linkedin %}
 
-                           href="https://www.instagram.com/{{ social.instagram }}">{{ social.instagram|replace("https://www.instagram.com/","")
-                           |replace("/","") }}</a>
-                    </li>
+                        <li class="address">
+                            <div class="address_icon_wrapper"><span class="fa fa-linkedin address_icon"></span></div>
+                            <a class="address__link" target="_blank"
+                               href="https://www.linkedin.com/in/{{ profile.social.linkedin }}">{{ profile.social.linkedin }}</a>
+                        </li>
+                    {% endif %}
 
-                    <li class="address">
-                        <div class="address_icon_wrapper"><span class="fa fa-linkedin address_icon"></span></div>
-                        <a class="address__link" target="_blank"
-                           href="{{ social.linkedin }}">{{ social.linkedin|replace("https://www.linkedin.com/in","")
-                           |replace("/","") }}</a>
-                    </li>
+                    {% if profile.social.github %}
+                        <li class="address">
+                            <div class="address_icon_wrapper"><span class="fa fa-github address_icon"></span></div>
+                            <a class="address__link" target="_blank"
+                               href="https://github.com/{{ profile.social.github }}">{{ profile.social.github }}</a>
+                        </li>
+                    {% endif %}
 
-
-                    <li class="address">
-                        <div class="address_icon_wrapper"><span class="fa fa-github address_icon"></span></div>
-                        <a class="address__link" target="_blank"
-                           href="{{ social.github }}">{{ social.github|replace("https://github.com/","")
-                           |replace("/","") }}</a>
-                    </li>
-
-                    <li class="address">
-                        <div class="address_icon_wrapper"><span class="fa fa-pinterest address_icon"></span></div>
-                        <a class="address__link" target="_blank"
-                           href="{{ social.pinterest }}">{{ social.pinterest|replace("https://www.pinterest.com/","")
-                           |replace("/","") }}</a>
-                    </li>
+                    {% if profile.social.pinterest %}
+                        <li class="address">
+                            <div class="address_icon_wrapper"><span class="fa fa-pinterest address_icon"></span></div>
+                            <a class="address__link" target="_blank"
+                               href="https://www.pinterest.com/{{ profile.social.pinterest }}">{{ profile.social.pinterest }}</a>
+                        </li>
+                    {% endif %}
 
 
                 </ul>
@@ -132,7 +130,7 @@
 
             <div class="info-box">
                 <ul class="experience__list scroll">
-                    {% for experience in experiences %}
+                    {% for experience in profile.experience %}
                         <li class="experience">
 
                             <div class="experience__title d-flex">
@@ -162,7 +160,7 @@
 
             <div class="info-box">
                 <ul class="scroll education__list">
-                    {% for education in educations %}
+                    {% for education in profile.education %}
                         <li class="education">
                             <div class="education__title d-flex">
                                 <h5 class="m-0">{{ education.title }}</h5>
@@ -190,29 +188,28 @@
 
     <div class="column3">
         <div class="skills">
-            <h4 class="m-0">مهارت نرم افزاری</h4>
+            <h4 class="m-0">مهارت ها</h4>
 
             <div class="info-box">
                 <ul class="skills__list">
 
-                    {% for skill in  skills %}
-                         <li class="skill">
-                        <h5 class="skill__text">{{ skill.name }}</h5>
-                        <div class="skill__line">
-                            <div class="d-flex skill__online" style="width: {{ skill.percent }}%;">
-                                <div class="skill__value">
+                    {% for skill in  profile.skill %}
+                        <li class="skill">
+                            <h5 class="skill__text">{{ skill.name }}</h5>
+                            <div class="skill__line">
+                                <div class="d-flex skill__online" style="width: {{ skill.percent }}%;">
+                                    <div class="skill__value">
 
-                                </div>
+                                    </div>
 
-                                <span class="skill__circel">
+                                    <span class="skill__circel">
 
                                     </span>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
 
                     {% endfor %}
-
 
 
                 </ul>
@@ -221,17 +218,24 @@
 
 
         <div class="portfolio">
-            <h4 class="m-0">گالری عکس</h4>
+            <h4 class="m-0">نمونه کار ها</h4>
             <div class="info-box">
-                <div class="owl-carousel owl-theme">
+                <div class="main-carousel">
+                    {% for portfolio in profile.portfolio %}
+                        <div class="carousel-cell portfolio-card">
+                            <a href="{{ portfolio.link }}">
+                                <div class="portfolio__image__wrapper">
+                                    <img class="portfolio__image w-100"
+                                         src="{{ url_for('static', filename='uploads/portfolios/'+portfolio.image) }}"
+                                         alt="">
+                                </div>
+                                <div class="portfolio__text"><h4 class="m-0 text-black">{{ portfolio.name }}</h4></div>
+                            </a>
+                        </div>
 
-                    <div class="portfolio__image__wrapper">
-                        <img class="portfolio__image w-100" src="images/resume.png">
-                    </div>
 
-                    <div class="portfolio__image__wrapper">
-                        <img class="portfolio__image w-100" src="images/typing.png">
-                    </div>
+                    {% endfor %}
+
                 </div>
             </div>
         </div>
@@ -244,7 +248,7 @@
 </div>
 
 <script src="{{ url_for('static',filename='js/Jquery.min.js') }}"></script>
-<script src="{{ url_for('static',filename='js/owl.carousel.min.js') }}"></script>
+<script src="{{ url_for('static',filename='js/flickity.pkgd.min.js') }}"></script>
 <script src="{{ url_for('static',filename='js/app.js') }}"></script>
 </body>
 </html>

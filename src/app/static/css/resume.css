@@ -36,7 +36,6 @@ body {
 }
 
 
-
 .personal {
     margin-bottom: 25px;
 }
@@ -311,7 +310,7 @@ body {
 
 
 .portfolio {
-    height: 263px;
+    height: 310px;
 }
 
 .portfolio .info-box {
@@ -319,10 +318,12 @@ body {
 }
 
 .portfolio__image__wrapper {
-    padding: 25px;
+    padding: 10px;
+    height: 250px;
+
 }
 
-.invite{
+.invite {
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -333,6 +334,15 @@ body {
     padding: 10px;
 }
 
-.invite a{
+.invite a {
     color: #FAFBFC;
+}
+
+
+.portfolio__image__wrapper img {
+    height: 100%;
+}
+
+.portfolio__text{
+    padding: 10px;
 }

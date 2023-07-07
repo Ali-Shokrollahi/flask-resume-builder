@@ -17,15 +17,8 @@ def show_resume(username: str):
         else:
             abort(404)
 
-    work_datas = profile.work_datas
-    social = profile.social
-    experience = profile.experience
-    education = profile.education
-    skill = profile.skill
 
-    return render_template('resumes/resume.html', profile=profile, workdata=work_datas, social=social,
-                           experiences=experience,
-                           educations=education, skills=skill)
+    return render_template('resumes/resume.html', profile=profile)
 
 
 def download_pdf(username: str):
