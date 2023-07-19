@@ -62,6 +62,8 @@ class ExperienceForm(ModelForm, FlaskForm):
         model = Experience
         only = ['title', 'company', 'description', 'duration']
 
+    duration = IntegerField(validators=[DataRequired(), NumberRange(min=0, max=64)])
+
     submit = SubmitField('اضافه کردن')
 
 
@@ -69,6 +71,8 @@ class EducationForm(ModelForm, FlaskForm):
     class Meta:
         model = Education
         only = ['title', 'school', 'description', 'duration']
+
+    duration = IntegerField(validators=[DataRequired(), NumberRange(min=0, max=64)])
 
     submit = SubmitField('اضافه کردن')
 

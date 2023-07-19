@@ -247,6 +247,13 @@
     <a href="/">همین الان رزومه خودت بساز!</a>
 </div>
 
+{% if profile.resume.public_pdf_download %}
+    <div class="pdf_download">
+        <a href="{{ url_for('resumes.download_pdf',username=profile.username) }}">دانلود pdf</a>
+    </div>
+{% endif %}
+
+
 <script src="{{ url_for('static',filename='js/Jquery.min.js') }}"></script>
 <script src="{{ url_for('static',filename='js/flickity.pkgd.min.js') }}"></script>
 <script src="{{ url_for('static',filename='js/app.js') }}"></script>

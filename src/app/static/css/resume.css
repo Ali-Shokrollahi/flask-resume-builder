@@ -338,6 +338,20 @@ body {
     color: #FAFBFC;
 }
 
+.pdf_download{
+    width: 100px;
+    height: 32px;
+    border-radius: 10px;
+    background-color: #422FBD;
+    position: fixed;
+    top: 5px;
+    left: 10px;
+    color: #FAFBFC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 .portfolio__image__wrapper img {
     height: 100%;

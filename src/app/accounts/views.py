@@ -29,21 +29,23 @@ class SignupUser(MethodView):
             user.set_user_password(form.password.data)
 
             db.session.add(user)
+            try:
 
-            token = generate_token(user.email)
-            confirm_url = url_for("accounts.confirm_email", token=token, _external=True)
-            html = render_template("accounts/confirm_email.html", confirm_url=confirm_url)
-            subject = "لطفا ایمیل خود را تایید کنید."
-            send_email(user.email, subject, html)
-            db.session.flush()
-            profile = Profile(user_id=user.id)
-            resume = Resume(owner_id=user.id)
-            db.session.add(profile)
-            db.session.add(resume)
-            db.session.commit()
-            return redirect(url_for("accounts.signup_success"))
+                token = generate_token(user.email)
+                confirm_url = url_for("accounts.confirm_email", token=token, _external=True)
+                html = render_template("accounts/confirm_email.html", confirm_url=confirm_url)
+                subject = "لطفا ایمیل خود را تایید کنید."
+                send_email(user.email, subject, html)
+                db.session.flush()
+                profile = Profile(user_id=user.id)
+                resume = Resume(owner_id=user.id)
+                db.session.add(profile)
+                db.session.add(resume)
+                db.session.commit()
+                return redirect(url_for("accounts.signup_success"))
 
-        flash('خطایی در هنگام انجام عملیات رخ داده است. لطفا مجددا امتحان کنید.', category='danger')
+            except:
+                 flash('خطایی در هنگام انجام عملیات رخ داده است. لطفا مجددا امتحان کنید.', category='danger')
 
         return render_template('accounts/signup.html', form=form)
 
@@ -103,6 +105,8 @@ class SigninUser(MethodView):
 
 
 class PasswordReset(MethodView):
+    decorators = [redirect_authenticated_user]
+
     def get(self):
         form = PasswordResetForm()
         return render_template('accounts/reset_password.html', form=form)

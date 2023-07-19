@@ -17,7 +17,6 @@ def show_resume(username: str):
         else:
             abort(404)
 
-
     return render_template('resumes/resume.html', profile=profile)
 
 
@@ -49,7 +48,7 @@ def download_pdf(username: str):
 
     response = make_response(pdf)
     response.headers["Content-Type"] = "application/pdf"
-    response.headers["Content-Disposition"] = "inline; filename=output.pdf"
+    response.headers["Content-Disposition"] = f"inline; filename={profile.username}.pdf"
     return response
 
 
