@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 0dbd2d320868
+Revision ID: 9f2f406fe75d
 Revises: 
-Create Date: 2023-07-04 09:47:40.323923
+Create Date: 2023-07-19 10:15:39.908914
 
 """
 from alembic import op
@@ -11,7 +11,7 @@ import sqlalchemy_utils
 
 
 # revision identifiers, used by Alembic.
-revision = '0dbd2d320868'
+revision = '9f2f406fe75d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -67,6 +67,17 @@ def upgrade():
     sa.Column('company', sa.String(length=64), nullable=False),
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('duration', sa.Integer(), nullable=True),
+    sa.Column('owner_id', sa.Integer(), nullable=True),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['owner_id'], ['profiles.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('portfolios',
+    sa.Column('name', sa.String(length=64), nullable=False),
+    sa.Column('link', sa.String(length=256), nullable=False),
+    sa.Column('image', sa.String(length=64), nullable=True),
     sa.Column('owner_id', sa.Integer(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
@@ -132,6 +143,7 @@ def downgrade():
     op.drop_table('socials')
     op.drop_table('skills')
     op.drop_table('resumes')
+    op.drop_table('portfolios')
     op.drop_table('experiences')
     op.drop_table('educations')
     op.drop_table('profiles')
